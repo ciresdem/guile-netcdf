@@ -1,0 +1,12 @@
+
+ [ guile - NetCF ]
+
+-------------------
+
+GUILE-NETCDF is a Guile module for the NetCDF scientific format.
+
+https://www.unidata.ucar.edu/software/netcdf/docs/
+
+NetCDF is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data. NetCDF was developed and is maintained at Unidata. Unidata provides data and software tools for use in geoscience education and research. Unidata is part of the University Corporation for Atmospheric Research (UCAR) Community Programs (UCP). Unidata is funded primarily by the National Science Foundation.
+
+-------------------
