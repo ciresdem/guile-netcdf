@@ -16,6 +16,27 @@
 ;; along with the program.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;;; Commentary:
+;; attribute-edit input-file [options]
+;;
+;;   input-file       The input NetCDF file
+;;
+;;  Options:
+;;   -e, --edit       The attribute editing spec:
+;;                    variable-name:attribute-name:attribute-value:attribute-type,...
+;;                    e.g. -e nc-global:Title:\"My nc File!\":text,nc-global:version:0.1:double
+;;   -a, --append     The attribute appending spec:
+;;                    variable-name:attribute-name:attribute-value:attribute-type,...
+;;   -d, --delete     The attribute deleting spec:
+;;                    variable-name:attribute-name
+;;                    e.g. -d nc-global:Title,nc-global:version
+;;   -r, --rename     The attribute renaming spec:
+;;                    variable-name:attribute-name:new-attribute-name
+;;                    e.g. -r nc-global:Title:old_Title,nc-global:version:old_version
+;;
+;;   --verbose        Increase verbosity [~a].
+;;
+;;   --version        Display version
+;;   --help           Display this help
 ;;
 ;;; Code:
 
@@ -39,7 +60,7 @@
 
 (define (display-help)
   (format #t "\
-ncaedit.scm input-file [options]
+attribute-edit input-file [options]
 
   input-file       The input NetCDF file
 
