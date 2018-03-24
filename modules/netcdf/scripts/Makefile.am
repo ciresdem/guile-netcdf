@@ -2,7 +2,7 @@
 
 ### scheme files ###
 pkgguilesitedir = $(guilesitedir)/netcdf/scripts
-dist_pkgguilesite_DATA = describe.scm help.scm
+dist_pkgguilesite_DATA = describe.scm attribute-edit.scm help.scm
 
 ### compiled scheme files ###
 
@@ -18,6 +18,6 @@ guilec_opts = --load-path=$(abs_top_srcdir)/modules
 	$(GUILD) compile --target="$(host)" $(GUILEC_FLAGS) $(guilec_opts)\
 	 -L "$(abs_builddir)/.." -L "$(abs_srcdir)/.." -o "$@" "$<"
 
-ETAGS_ARGS = describe.scm help.scm
+ETAGS_ARGS = describe.scm attribute-edit.scm help.scm
 
 CLEANFILES = $(pkgguileobject_DATA)

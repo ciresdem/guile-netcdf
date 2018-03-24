@@ -4,7 +4,7 @@
 
   Copyright (c) 2011, 2012, 2013, 2018 Matthew Love <matthew.love@colorado.edu>
   This file is part of guile-netcdf.
-  GUILE-NETCDF is liscensed under the GPL v.2 or later and
+  GUILE-NETCDF is liscensed under the GPL v.3 or later and
   is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the

@@ -1,24 +1,41 @@
-#!/usr/bin/guile \
--e main -s
-!#
-
-;; Copyright (c) 2011, 2012 Matthew Love <matth.love@gmail.com>
-;; This file is part of guile-netcdf
-;; GUILE-NETCDF is liscensed under the GPL v.2 or later and 
-;; is distributed in the hope that it will be useful,
+;;; attribute-edit.scm
+;;
+;; Copyright (c) 2018 Matthew Love <matthew.love@colorado.edu>
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; The program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details. 
-;; <http://www.gnu.org/licenses/>
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with the program.  If not, see <http://www.gnu.org/licenses/>.
+;;
+;;; Commentary:
+;;
+;;; Code:
 
-;; Modules
-(use-modules (ice-9 getopt-long))
-;(use-modules (ice-9 format))
-;(use-syntax (ice-9 syncase))
-;; Load the netcdf module
-(use-modules (netcdf netcdf))
+(define-module (netcdf scripts attribute-edit)
+  #:use-module (ice-9 getopt-long)
+  #:use-module (netcdf netcdf))
 
-(define ncaedit-version "0.1.9")
+(define attribute-edit-version "0.0.1")
+
+(define %summary "Edit the attributes of a NetCDF file.")
+
+(define command-synopsis
+  '((version (value #f))
+    (help (value #f))
+    (verbose (value #f))
+    (edit (single-char #\e) (value #t))
+    (rename (single-char #\r) (value #t))
+    (append (single-char #\a) (value #t))
+    (range (single-char #\R) (value #t))
+    (delete (single-char #\d) (value #t))))
 
 (define (display-help)
   (format #t "\
@@ -46,64 +63,59 @@ ncaedit.scm input-file [options]
 
 " nc-verbose))
 
-(define (main args)
-  (let* ((option-spec '((version (value #f))
-			(help (value #f))
-			(verbose (value #f))
-			(edit (single-char #\e) (value #t))
-			(rename (single-char #\r) (value #t))
-			(append (single-char #\a) (value #t))
-			(range (single-char #\R) (value #t))
-			(delete (single-char #\d) (value #t))))
+(define (display-version)
+  (format #t "\
+describe (guile-netcdf) version ~a
+Copyright (c) 2011, 2012, 2013, 2018 Matthew Love
 
-	 (options (getopt-long args option-spec))
-	 (help-wanted (option-ref options 'help #f))
-	 (version-wanted (option-ref options 'version #f))
-	 (verbose-wanted (option-ref options 'verbose #f))
-	 (input (option-ref options '() #f))
-	 (edit (option-ref options 'edit #f))
-	 (rename (option-ref options 'rename #f))
-	 (append (option-ref options 'append #f))
-	 (range (option-ref options 'range #f))
-	 (delete (option-ref options 'delete #f)))
+License LGPLv3+: GNU LGPL 3 or later <http://gnu.org/licenses/lgpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+" attribute-edit-version))
 
-    (if verbose-wanted
-	(set! nc-verbose #t))
+(define (attribute-edit . args)
+  (let* ((options (getopt-long (cons "attribute-edit" args) command-synopsis)))
+    (let ((help-wanted (option-ref options 'help #f))
+	  (version-wanted (option-ref options 'version #f))
+	  (verbose-wanted (option-ref options 'verbose #f))
+	  (input (option-ref options '() #f))
+	  (edit (option-ref options 'edit #f))
+	  (rename (option-ref options 'rename #f))
+	  (append (option-ref options 'append #f))
+	  (range (option-ref options 'range #f))
+	  (delete (option-ref options 'delete #f)))
 
-    (if (or version-wanted help-wanted)
-	(begin
-	  (if version-wanted
-	      (display-version "ncaedit.scm" ncaedit-version))
-	  (if help-wanted
-	      (display-help)))
+      (if verbose-wanted
+	  (set! nc-verbose #t))
 
-	(if (and (pair? input)
-		 (nc-file? (car input)))
-	    (begin
-	      ;; Append attributes
-	      (if append
-		  (begin
-		    (nc-append-atts (car input) append)
-		    (nc-append-history-args (car input) args)))
-	      ;; Edit attributes
-	      (if edit
-		  (begin
-		    (nc-edit-atts (car input) edit)
-		    (nc-append-history-args (car input) args)))
-	      ;; Delete attributes
-	      (if delete
-		  (begin
-		    (nc-delete-atts (car input) delete)
-		    (nc-append-history-args (car input) args)))
-	      ;; Rename attributes
-	      (if rename
-		  (begin
-		    (nc-rename-atts (car input) rename)
-		    (nc-append-history-args (car input) args)))
-	      (if range
-		  (begin
-		    ())))
-	    ;; Display Help
-	    (display-help)))))
-	  ;(nc-append-history (car input) (string-join args " "))))))
-;;END
+      (cond
+       (version-wanted (display-version))
+       (help-wanted (display-help))
+       (else	
+	(let ((input (option-ref options '() #f)))
+	  (if (and (pair? input)
+		   (nc-file? (car input)))
+	      (cond
+	       ;; Append attributes
+	       (append
+		(nc-append-atts (car input) append)
+		(nc-append-history-args (car input) args))
+	       ;; Edit attributes
+	       (edit
+		(nc-edit-atts (car input) edit)
+		(nc-append-history-args (car input) args))
+	       ;; Delete attributes
+	       (delete
+		(nc-delete-atts (car input) delete)
+		(nc-append-history-args (car input) args))
+	       ;; Rename attributes
+	       (rename
+		(nc-rename-atts (car input) rename)
+		(nc-append-history-args (car input) args))
+	       (range
+		(display-help))
+	       (else (display-help)))
+	      ;; Display Help
+	      (display-help))))))))
+;; (nc-append-history (car input) (string-join args " "))))))
+;;; End
