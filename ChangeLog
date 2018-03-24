@@ -1,0 +1,85 @@
+2011-03-06  mrl  <mrl@maplove.net>
+
+	* netcdf.scm: Added with-nc-file macro
+
+	* nc_guile.c:
+	Added support for returning lists from the nc_get_att* functions
+
+	* nc_guile.c: String malloc was too small in nc_inq_attname
+
+	* netcdf.scm: Added nc-inq-attname
+
+	* nc_guile.c: Added nc_inq_attname
+
+	* netcdf.scm: -*-guile-*- -> -*-scheme-*-
+
+	* nc_guile.c: Added nc_display_nctype scheme function
+
+	* netcdf.scm: Added 'nc-display-nctype
+
+2011-03-05  mrl  <mrl@maplove.net>
+
+	* nc_guile.c: Added nc_inq_varids_wrapper
+
+	* netcdf.scm: Added nc-inq-varids
+
+	* nc_guile.c:
+	Updated nc_inq_dimids and nc_inq_var, which had bugs in retrieving smob lists.
+
+	* netcdf.scm: formatting
+	renamed toplevel of module
+
+	* nc_guile.c: init_nc -> scm_init_netcdf
+
+	* netcdf.scm: export all functions currently in libguile-nc
+
+	* netcdf.scm: New file.
+
+	* nc_guile.c: Added wrapper for nc_inq_dimids()
+
+	* nc_guile.c: int length; -> size_t length;
+	Added nc-guile-inq-libvers
+
+2011-02-28  mrl  <mrl@maplove.net>
+
+	* nc_guile.c: Working version, most *_inq_* functions included.
+
+2011-02-26  mrl  <mrl@maplove.net>
+
+	* nc_datasets.c: New file.
+
+2011-02-25  mrl  <mrl@maplove.net>
+
+	* nc_guile.c: New file.
+
+2010-09-27  mlove  <mlove@bacchus>
+
+	* ncaedit.c: fixed some minor syntax bugs.
+	Changed printed output of -c option.
+
+2010-09-16  mlove  <mlove@bacchus>
+
+	* ncaedit.c:
+	Bug fix.  Reset num_val to 0, or first float will have x more values.
+
+2010-09-09  mlove  <mlove@bacchus>
+
+	* ncaedit.c: Added cf-checking function.
+	cleaned up lots of bugs.
+
+2010-08-27  mlove  <mlove@bacchus>
+
+	* ncaedit.c: inc->inq
+
+	* ncaedit.c: Added support for editing multiple records at once.
+	Added some comments, and fixed up help menu.
+	Began writing the cf_check function.
+
+2010-08-26  mlove  <mlove@bacchus>
+
+	* ncaedit.c: Initial commit, all in working order...
+
+2010-08-24  mlove  <mlove@bacchus>
+
+	* ncaedit.c, nc2cf.c: New file.
+
