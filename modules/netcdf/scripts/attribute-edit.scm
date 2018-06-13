@@ -44,7 +44,7 @@
   #:use-module (ice-9 getopt-long)
   #:use-module (netcdf netcdf))
 
-(define attribute-edit-version "0.0.1")
+(define attribute-edit-version "0.0.2")
 
 (define %summary "Edit the attributes of a NetCDF file.")
 
@@ -120,19 +120,19 @@ There is NO WARRANTY, to the extent permitted by law.
 	       ;; Append attributes
 	       (append
 		(nc-append-atts (car input) append)
-		(nc-append-history-args (car input) args))
+		(nc-append-history-args (car input) (cons "ncguile attribute-edit" args)))
 	       ;; Edit attributes
 	       (edit
 		(nc-edit-atts (car input) edit)
-		(nc-append-history-args (car input) args))
+		(nc-append-history-args (car input) (cons "ncguile attribute-edit" args)))
 	       ;; Delete attributes
 	       (delete
-		(nc-delete-atts (car input) delete)
-		(nc-append-history-args (car input) args))
+		(nc-delete-atts (car input) delete))
+		;;(nc-append-history-args (car input) (cons "ncguile attribute-edit" args)))
 	       ;; Rename attributes
 	       (rename
 		(nc-rename-atts (car input) rename)
-		(nc-append-history-args (car input) args))
+		(nc-append-history-args (car input) (cons "ncguile attribute-edit" args)))
 	       (range
 		(display-help))
 	       (else (display-help)))
