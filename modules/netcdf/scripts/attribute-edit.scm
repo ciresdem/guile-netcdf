@@ -139,4 +139,6 @@ There is NO WARRANTY, to the extent permitted by law.
 	      ;; Display Help
 	      (display-help))))))))
 ;; (nc-append-history (car input) (string-join args " "))))))
+
+(define main attribute-edit)
 ;;; End
